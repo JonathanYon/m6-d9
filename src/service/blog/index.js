@@ -26,7 +26,8 @@ blogsRouter.get("/", async (req, res, next) => {
       .find(query.criteria, query.options.fields)
       .sort()
       .skip()
-      .limit(3);
+      .limit(3)
+      .populate("authors");
     res.send(posts);
   } catch (error) {
     next(error);

@@ -13,4 +13,17 @@ authorsRouter.post("/", async (req, res, next) => {
   }
 });
 
+authorsRouter.get("/", async (req, res, next) => {
+  try {
+    // const query = q2m(req.query);
+    // console.log(query);
+
+    // const total = await authorsModel.countDocuments(query.criteria); //will have to finsish the query when i get the posts
+    const authors = await authorsModel.find();
+
+    res.send(authors);
+  } catch (error) {
+    next(error);
+  }
+});
 export default authorsRouter;
