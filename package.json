@@ -1,0 +1,34 @@
+{
+  "name": "m6-d7-mongo",
+  "version": "1.0.0",
+  "description": "Intro to mongoDB first day",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -e js -r dotenv/config ./src/server.js",
+    "start": "node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanYon/m6-d7-mongo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonathanYon/m6-d7-mongo/issues"
+  },
+  "homepage": "https://github.com/JonathanYon/m6-d7-mongo#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-list-endpoints": "^6.0.0",
+    "http-errors": "^1.8.0",
+    "mongoose": "^6.0.3",
+    "query-to-mongo": "^0.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
