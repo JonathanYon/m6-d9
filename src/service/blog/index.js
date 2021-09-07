@@ -116,7 +116,7 @@ blogsRouter.get("/post/:id/comments/:commentId", async (req, res, next) => {
     const post = await blogModel.findById(req.params.id);
     if (post) {
       const comment = post.comments.find(
-        (com) => com._id.toString() === req.params.commentId
+        (com) => com._id.toString() === req.params.commentId // the .toString is very important
       );
       if (comment) {
         res.send(comment);
