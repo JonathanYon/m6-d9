@@ -3,7 +3,7 @@ import authorsModel from "./schema.js";
 
 const authorsRouter = Router();
 
-authorsRouter.get("/", async (req, res, next) => {
+authorsRouter.post("/", async (req, res, next) => {
   try {
     const author = await authorsModel(req.body).save();
     res.send(author._id);
