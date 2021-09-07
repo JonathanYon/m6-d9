@@ -25,7 +25,7 @@ const blogSchema = new Schema(
     content: { type: String, required: true },
     comments: [
       {
-        comment: String,
+        comment: String, //embedded comments inside the post for the comment
       },
     ],
     likes: [{ type: Schema.Types.ObjectId, required: true, ref: "User" }],
