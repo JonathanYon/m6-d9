@@ -29,7 +29,7 @@ mongoose.connection.on(`error`, (err) => {
 });
 
 //-------------------------OR----------------------------------
-// THE CODE BELLOW ALSO WORK //
+// THE CODE BELLOW ALSO WORK // but the above one seems good
 
 // mongoose
 //   .connect(process.env.MONGOS_CON_LOCAL)
