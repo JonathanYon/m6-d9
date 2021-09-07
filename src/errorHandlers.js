@@ -20,6 +20,7 @@ export const forbidenHandler = (err, req, res, next) => {
   }
 };
 export const genericErrorHandler = (err, req, res, next) => {
+  // generic error handler for all
   console.log(err);
   res.status(500).send({ success: false, message: "generic error" });
 };
