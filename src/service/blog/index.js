@@ -150,14 +150,13 @@ blogsRouter.put("/post/:id/comments/:commentId", async (req, res, next) => {
       { new: true, runValidators: true }
     );
 
-    // if (comment) {
-    //   res.send(comment);
-    // } else {
-
-    //   next(
-    //     createHttpError(404, `The Post you are looking for does NOT exist!`)
-    //   );
-    // }
+    if (comment) {
+      res.send(comment);
+    } else {
+      next(
+        createHttpError(404, `The Post you are looking for does NOT exist!`)
+      );
+    }
   } catch (error) {
     console.log(error);
     next(createHttpError(404));
