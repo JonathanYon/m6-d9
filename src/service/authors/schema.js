@@ -12,6 +12,7 @@ const authorSchema = new Schema(
   { timestamps: true }
 );
 
+// password hash
 authorSchema.pre("save", async function (next) {
   //this is where we hash the password of our author
   const currentUser = this; // this in this case is indicating to the newly registered author
@@ -24,5 +25,14 @@ authorSchema.pre("save", async function (next) {
 
   next();
 });
+
+// project password(removing password from the get route)
+
+authorSchema.methods.toJSON = function () {
+  const userDetail = this;
+  const userObject = userDetail.toObject();
+  delete userObject.password;
+  return userObject;
+};
 
 export default model(`Author`, authorSchema);
