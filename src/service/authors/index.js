@@ -29,24 +29,24 @@ authorsRouter.get("/", authMidllware, async (req, res, next) => {
   }
 });
 
-// authorsRouter.get(
-//   "/:Id",
-//   authMidllware,
-//   adminOnlyMiddleware,
-//   async (req, res, next) => {
-//     try {
-//       const author = await authorsModel.findById(req.params.Id);
-//       if (author) {
-//         res.send(author);
-//       } else {
-//         res.send(`blog ${req.params.Id} NOT found!!`);
-//       }
-//     } catch (error) {
-//       next(createHttpError(404, `author ${req.params.Id} NOT found!!`));
-//     }
-//   }
-// );
-authorsRouter.get("/me", authMidllware, async (req, res, next) => {
+authorsRouter.get(
+  "/:Id",
+  authMidllware,
+  adminOnlyMiddleware,
+  async (req, res, next) => {
+    try {
+      const author = await authorsModel.findById(req.params.Id);
+      if (author) {
+        res.send(author);
+      } else {
+        res.send(`blog ${req.params.Id} NOT found!!`);
+      }
+    } catch (error) {
+      next(createHttpError(404, `author ${req.params.Id} NOT found!!`));
+    }
+  }
+);
+authorsRouter.get("/me/stories", authMidllware, async (req, res, next) => {
   try {
     res.send(req.author);
   } catch (error) {
