@@ -8,6 +8,12 @@ const authorSchema = new Schema(
     avatar: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    role: {
+      type: String,
+      required: true,
+      enum: ["Author", "Admin"],
+      default: "Author",
+    },
   },
   { timestamps: true }
 );
@@ -33,6 +39,21 @@ authorSchema.methods.toJSON = function () {
   const userObject = userDetail.toObject();
   delete userObject.password;
   return userObject;
+};
+
+// comparing plain password & email to the hashed one
+authorSchema.statics.checkCredential = async function (email, plainPassword) {
+  // lets take this func to the basic.js
+  const author = await this.findOne({ email }); //searching by email
+  console.log(author);
+  if (author) {
+    const isMatch = await bcrypt.compare(plainPassword, author.password);
+    console.log(isMatch);
+    if (isMatch) return author;
+    else null;
+  } else {
+    return null;
+  }
 };
 
 export default model(`Author`, authorSchema);
