@@ -11,7 +11,7 @@ export const authMidllware = async (req, res, next) => {
       console.log(req.headers.authorization);
 
       const decodeUserPass = atob(req.headers.authorization.split(" ")[1]);
-      console.log(decodeUserPass);
+      // console.log(decodeUserPass);
       const [email, password] = decodeUserPass.split(":");
 
       const author = await authorModel.checkCredential(email, password);

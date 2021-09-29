@@ -15,7 +15,7 @@ const newToken = (payload) =>
     )
   );
 
-const verifyToken = (token) =>
+export const verifyToken = (token) =>
   new Promise((resolve, reject) =>
     jwt.verify(token, process.env.REFRESH_TOKEN, (err, decodedToken) => {
       if (err) reject(err);
