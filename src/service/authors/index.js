@@ -109,7 +109,7 @@ authorsRouter.post("/register", async (req, res, next) => {
   try {
     const newAuthor = await authorsModel(req.body);
     const { _id } = await newAuthor.save();
-    res.status(201).send();
+    res.status(201).send(_id);
   } catch (error) {
     console.log(error);
     next(error);
@@ -121,8 +121,10 @@ authorsRouter.post("/login", async (req, res, next) => {
     const { email, password } = req.body;
     const author = await authorsModel.checkCredential(email, password);
     if (author) {
-      const { accessToken } = jwtAuthentication(author);
-      res.send(accessToken);
+      const accessToken = await jwtAuthentication(author);
+      res.send({ accessToken });
+    } else {
+      next(createHttpError(401, "invalid email and/or password"));
     }
   } catch (error) {
     console.log(error);

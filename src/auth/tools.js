@@ -25,5 +25,6 @@ const verifyToken = (token) =>
 
 export const jwtAuthentication = async (user) => {
   const accessToken = await newToken({ _id: user._id });
+  console.log("toke=>", accessToken);
   return accessToken;
 };
