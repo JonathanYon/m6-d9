@@ -89,19 +89,24 @@ authorsRouter.delete(
 //get the me
 authorsRouter.get("/me/stories", authMidllware, async (req, res, next) => {
   try {
+    const posts = await bl.find({ author: req.user._id.toString() });
     res.send(req.author);
   } catch (error) {
     next(createHttpError(404, `author ${req.params.Id} NOT found!!`));
   }
 });
 
-authorsRouter.put("/update/me", authMidllware, async (req, res, next) => {
-  const author = await authorsModel.findByIdAndUpdate(
-    req.author._id,
-    { ...req.body, role: req.author.role },
-    { new: true }
-  );
-  res.send(author);
+// authorsRouter.put("/update/me", authMidllware, async (req, res, next) => {
+
+//   const author = await authorsModel.findByIdAndUpdate(req.author._id)
+//   res.send(author);
+// });
+
+// register with Token
+authorsRouter.post("/register", async (req, res, next) => {
+  const newAuthor = await authorsModel(req.body);
+  const { _id } = await newAuthor.save();
+  res.status(201).send();
 });
 
 export default authorsRouter;
