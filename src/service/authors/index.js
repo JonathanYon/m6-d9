@@ -3,6 +3,7 @@ import authorsModel from "./schema.js";
 import { authMidllware } from "../../auth/basic.js";
 import { adminOnlyMiddleware } from "../../auth/admin.js";
 import createHttpError from "http-errors";
+import { jwtAuthentication } from "../../auth/tools.js";
 
 const authorsRouter = Router();
 
@@ -114,6 +115,19 @@ authorsRouter.post("/register", async (req, res, next) => {
     next(error);
   }
 });
-authorsRouter.post("/login", async (req, res, next) => {});
+
+authorsRouter.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const author = await authorsModel.checkCredential(email, password);
+    if (author) {
+      const { accessToken } = jwtAuthentication(author);
+      res.send(accessToken);
+    }
+  } catch (error) {
+    console.log(error);
+    next(createHttpError(401, "Check your credential again"));
+  }
+});
 
 export default authorsRouter;
