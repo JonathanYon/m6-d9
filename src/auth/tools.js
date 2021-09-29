@@ -22,3 +22,8 @@ const verifyToken = (token) =>
       resolve(decodedToken);
     })
   );
+
+export const jwtAuthentication = async (user) => {
+  const accessToken = await newToken({ _id: user._id });
+  return accessToken;
+};

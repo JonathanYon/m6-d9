@@ -2,6 +2,7 @@ import { Router } from "express";
 import authorsModel from "./schema.js";
 import { authMidllware } from "../../auth/basic.js";
 import { adminOnlyMiddleware } from "../../auth/admin.js";
+import createHttpError from "http-errors";
 
 const authorsRouter = Router();
 
@@ -104,9 +105,15 @@ authorsRouter.get("/me/stories", authMidllware, async (req, res, next) => {
 
 // register with Token
 authorsRouter.post("/register", async (req, res, next) => {
-  const newAuthor = await authorsModel(req.body);
-  const { _id } = await newAuthor.save();
-  res.status(201).send();
+  try {
+    const newAuthor = await authorsModel(req.body);
+    const { _id } = await newAuthor.save();
+    res.status(201).send();
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
+authorsRouter.post("/login", async (req, res, next) => {});
 
 export default authorsRouter;
