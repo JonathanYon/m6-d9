@@ -32,6 +32,17 @@ authorSchema.pre("save", async function (next) {
   next();
 });
 
+// to update the logged user its own details
+authorSchema.pre("findOneAndUpdate", async function () {
+  const update = this.getUpdate();
+  console.log("🤗", update);
+  const { password: plainPassword } = update;
+  if (plainPassword) {
+    const password = await bcrypt.hash(plainPassword, 10);
+    this.setUpdate({ ...update, password });
+  }
+});
+
 // project password(removing password from the get route)
 
 authorSchema.methods.toJSON = function () {

@@ -46,13 +46,6 @@ authorsRouter.get(
     }
   }
 );
-authorsRouter.get("/me/stories", authMidllware, async (req, res, next) => {
-  try {
-    res.send(req.author);
-  } catch (error) {
-    next(createHttpError(404, `author ${req.params.Id} NOT found!!`));
-  }
-});
 authorsRouter.put(
   "/:Id",
   authMidllware,
@@ -93,4 +86,22 @@ authorsRouter.delete(
     }
   }
 );
+//get the me
+authorsRouter.get("/me/stories", authMidllware, async (req, res, next) => {
+  try {
+    res.send(req.author);
+  } catch (error) {
+    next(createHttpError(404, `author ${req.params.Id} NOT found!!`));
+  }
+});
+
+authorsRouter.put("/update/me", authMidllware, async (req, res, next) => {
+  const author = await authorsModel.findByIdAndUpdate(
+    req.author._id,
+    { ...req.body, role: req.author.role },
+    { new: true }
+  );
+  res.send(author);
+});
+
 export default authorsRouter;
