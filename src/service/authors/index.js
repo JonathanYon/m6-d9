@@ -116,4 +116,12 @@ authorsRouter.put(
   }
 );
 
+authorsRouter.get("/me", jwtAuthMiddleware, async (req, res, next) => {
+  try {
+    res.send(req.author);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default authorsRouter;
