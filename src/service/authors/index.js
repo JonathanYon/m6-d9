@@ -108,10 +108,32 @@ authorsRouter.put(
       if (blog) {
         res.send(blog);
       } else {
-        next(createHttpError(401, "Unauthorized to change this blog"));
+        next(createHttpError(401, "💀Unauthorized to change this blog"));
       }
     } catch (error) {
       next(error);
+    }
+  }
+);
+
+authorsRouter.delete(
+  "/blog/:blogId",
+  jwtAuthMiddleware,
+  async (req, res, next) => {
+    try {
+      const blog = await blogModel.findOneAndDelete({
+        _id: req.params.blogId,
+        authors: req.author._id,
+      });
+      if (blog) {
+        res.send("✨ gone for good!!");
+      } else {
+        res.send(`blog ${req.params.blogId} NOT found!/or it's Not 💀 yours`);
+      }
+    } catch (error) {
+      next(
+        createHttpError(401, "💀 Why would you delete a post thats NOT yours?")
+      );
     }
   }
 );
