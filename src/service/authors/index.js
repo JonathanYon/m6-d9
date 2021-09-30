@@ -124,4 +124,19 @@ authorsRouter.get("/me", jwtAuthMiddleware, async (req, res, next) => {
   }
 });
 
+authorsRouter.put("/me", jwtAuthMiddleware, async (req, res, next) => {
+  try {
+    const author = await authorsModel.findByIdAndUpdate(
+      req.author._id,
+      { ...req.body },
+      { new: true }
+    );
+
+    res.send(author);
+  } catch (error) {
+    next(error);
+    console.log(error);
+  }
+});
+
 export default authorsRouter;
