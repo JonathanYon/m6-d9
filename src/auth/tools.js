@@ -37,3 +37,12 @@ export const verifyToken = (token) =>
       resolve(decodedToken);
     })
   );
+
+export const jwtAuthentication = async (author) => {
+  const accessToken = await newToken({ _id: author._id });
+  const refreshToken = await newRefreshToken({ _id: author._id });
+
+  author.refreshT = refreshToken;
+  await author.save();
+  return { accessToken, refreshToken };
+};
