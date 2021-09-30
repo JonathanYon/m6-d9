@@ -160,4 +160,20 @@ authorsRouter.post("/register", async (req, res, next) => {
   }
 });
 
+authorsRouter.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const author = await authorsModel.checkCredential(email, password);
+    if (author) {
+      const { accessToken, refreshToken } = await jwtAuthentication(author);
+      res.send({ accessToken, refreshToken });
+    } else {
+      next(createHttpError(401, "invalid email and/or password"));
+    }
+  } catch (error) {
+    console.log(error);
+    next(createHttpError(401, "Check your credential again"));
+  }
+});
+
 export default authorsRouter;
