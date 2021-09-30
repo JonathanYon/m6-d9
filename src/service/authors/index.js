@@ -88,4 +88,32 @@ authorsRouter.get("/me/stories", jwtAuthMiddleware, async (req, res, next) => {
   }
 });
 
+// /authors/12345/blogs/1234567
+
+// DELETE jwtMiidle, onlyAuthor, /authors/:authorId/blogs/blogid12345/comments/1208371293
+//jwtmiddle should be = authorid
+
+// DELETE /blogs/123123
+
+authorsRouter.put(
+  "/blog/:blogId",
+  jwtAuthMiddleware,
+  async (req, res, next) => {
+    try {
+      const blog = await blogModel.findOneAndUpdate(
+        { _id: req.params.blogId, authors: req.author._id },
+        { ...req.body },
+        { new: true }
+      );
+      if (blog) {
+        res.send(blog);
+      } else {
+        next(createHttpError(401, "Unauthorized to change this blog"));
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default authorsRouter;
