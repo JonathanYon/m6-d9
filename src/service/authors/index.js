@@ -176,4 +176,15 @@ authorsRouter.post("/login", async (req, res, next) => {
   }
 });
 
+authorsRouter.post("/refresh", async (req, res, next) => {
+  try {
+    const { fromBody } = req.body;
+    const { accessToken, refreshToken } = await refreshTokenAuth(fromBody);
+    console.log(accessToken, refreshToken);
+    res.send({ accessToken, refreshToken });
+  } catch (error) {
+    next(createHttpError(401, "Login error"));
+  }
+});
+
 export default authorsRouter;
