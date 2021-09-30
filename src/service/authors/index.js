@@ -139,4 +139,13 @@ authorsRouter.put("/me", jwtAuthMiddleware, async (req, res, next) => {
   }
 });
 
+authorsRouter.delete("/me", jwtAuthMiddleware, async (req, res, next) => {
+  try {
+    const author = await authorsModel.findByIdAndDelete(req.author._id);
+    res.send("Can't belive you just did that🙄👀👀");
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default authorsRouter;
