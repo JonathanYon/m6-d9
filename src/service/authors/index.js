@@ -148,4 +148,16 @@ authorsRouter.delete("/me", jwtAuthMiddleware, async (req, res, next) => {
   }
 });
 
+// register with Token
+authorsRouter.post("/register", async (req, res, next) => {
+  try {
+    const newAuthor = await authorsModel(req.body);
+    const { _id } = await newAuthor.save();
+    res.status(201).send(_id);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 export default authorsRouter;
