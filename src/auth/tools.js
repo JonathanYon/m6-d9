@@ -46,3 +46,17 @@ export const jwtAuthentication = async (author) => {
   await author.save();
   return { accessToken, refreshToken };
 };
+
+export const refreshTokenAuth = async (refresh) => {
+  try {
+    const decodedRefresh = await verifyToken(refreshToken);
+    const author = await authorModel.findById(decodedRefresh._id);
+    if (!author) throw new Error("Author not Found");
+    if (user.refreshT === refresh) {
+      const { accessToken, refreshToken } = jwtAuthentication(author);
+      return { accessToken, refreshToken };
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
